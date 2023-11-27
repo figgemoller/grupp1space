@@ -11,19 +11,17 @@ export function playerMovement(game) {
     //console.log(game.deltaTime);
     if (player.keys.left && player.x > 0) {
         player.x -= player.speed * game.deltaTime;
-        console.log("left")
     }
     if (player.keys.right && player.x + player.width < game.gameWidth) {
         player.x += player.speed * game.deltaTime;
-        console.log("right")
+
     }
     if (player.keys.up && player.y > 0) {
         player.y += -player.speed * game.deltaTime;
-        console.log("up")
+
     }
     if (player.keys.down && player.y + player.height < game.gameHeight) {
         player.y += player.speed * game.deltaTime;
-        console.log("down")
-    }
 
+    }
 }

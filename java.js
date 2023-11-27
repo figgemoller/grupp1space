@@ -1,12 +1,13 @@
 import { drawPlayer, playerMovement } from "./player.js";
-
+import { drawEnemies, updateEnemies, spawnEnemy, tickEnemySpawning } from "./enemies.js";
+//import { playerLaser, laser } from "./playerlaser.js";
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
 //hämtar bilderna från html-sidan och lägger in dem i variabler
-let alienImg = document.getElementById("enemyAlien");
-let playerLaserImg = document.getElementById("playerLaser");
+//let alienImg = document.getElementById("enemyAlien");
+//let playerLaserImg = document.getElementById("playerLaser");
 let alienLaserImg = document.getElementById("enemyLaser");
 
 
@@ -30,6 +31,9 @@ canvas.height = 900;
 //shootCountdown = timer; 
 
 
+
+
+
 //event-listener som lyssnar om någon pil-knapp trycks ner
 window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
@@ -46,8 +50,9 @@ window.addEventListener("keydown", (event) => {
     }
     //event-listener för att skjuta (om mellanslag trycks ner)
     if (event.key === " ") {
-        laser.shoot = true
-        //laser();
+        laser.shoot = true,
+        laser(game);
+        //console.log("skjut")
     }
 
 });
@@ -91,11 +96,11 @@ function initGame(gameWidth, gameHeight) {
                 shoot: false,
             },
         },
-        aliens: [],
-        alienSpawnTimer: 1,
+        enemies: [],
+        enemySpawnTimer: 1,
 
         laserBeams: [],
-        alienLasers: [],
+        enemyLasers: [],
 
         points: 0,
 
@@ -106,6 +111,8 @@ function initGame(gameWidth, gameHeight) {
         deltaTime: 0,
     }
 }
+
+
 
 /*
 function laser() {
@@ -120,6 +127,9 @@ function laser() {
 
     laserBeams.push(laser);
 }
+
+
+
 function alienLaser() {
     let alienLaser = {
         x: aliens[i].alien.x,
@@ -132,19 +142,9 @@ function alienLaser() {
 
     alienLasers.push(alienLaser);
 }
-function spawnAliens() {
-    let y = Math.random() * (canvas.height - 300) + 50;
-    let alien = {
-        x: 0,
-        y: y,
-        width: 50,
-        height: 50,
-    };
-
-    aliens.push(alien);
-}
 
 */
+
 function tick(ctx, game) {
   //function tick(game)  
     let now = Date.now();
@@ -154,8 +154,20 @@ function tick(ctx, game) {
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImg, 0, 0, game.gameWidth, game.gameHeight);
 
+    // Laddar in spelaren
     drawPlayer(ctx, game.player);
     playerMovement(game);
+
+    // Spelarens laser
+   // playerLaser(ctx, game, game.player);
+
+    // Laddar in fiender
+    drawEnemies(ctx, game);
+    updateEnemies(game);
+    tickEnemySpawning(game);
+
+   
+    
 
     requestAnimationFrame(() => tick(ctx, game));
 
@@ -231,17 +243,17 @@ function tick(ctx, game) {
          ctx.drawImage(playerImg, player.x, player.y, player.width, player.height); 
     
     
-        for (let i = 0; i < aliens.length; i++) {
-            let alien = aliens[i]
+        for (let i = 0; i < enemies.length; i++) {
+            let enemy = enemies[i]
     
-            alien.x += speed * deltaTime * .4;
+            enemy.x += speed * deltaTime * .4;
             //alien.x -= speed * deltaTime * .7
     
             ctx.imageSmoothingEnabled = false;
             ctx.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
     
-            if (alien.x - alien.width >= canvas.width) {
-                aliens.splice(i, 1);
+            if (enemy.x - enemy.width >= canvas.width) {
+                enemies.splice(i, 1);
                 i--;
                 continue;
             } */
