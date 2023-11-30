@@ -1,34 +1,34 @@
-import { isColliding } from "./collision.js";
+import { isColliding } from "./shootingAliens.js";
 //Funktion
 //denna funktion ritar ut lasern från spelaren (player)
 export function playerLaser(ctx, game) {
     for (let i = 0; i < game.laserBeams.length; i++) { //går igenom alla laserbeams 
-  
         let laser = game.laserBeams[i]; //lägger in den aktuella laserbeam i variabeln laser
-
         laser.y += -laser.speed * game.deltaTime * 2; //ändrar y-värde på laser
-
-
-        let playerLaserImg = document.getElementById("playerLaser"); //hämtar bilden för lasern
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(playerLaserImg, laser.x + 15, laser.y - 6, laser.width, laser.height); //ritar ut lasern på ny plats
-
-        /* for (let i = 0; i < game.enemies.length; i++) {
-            let enemy = game.enemies[i];
-
-            if (isColliding (laser, enemy)) {
-                game.laserBeams.splice(i--, 1);
-                game.enemies.splice(i--, 1);
-                game.points++;
-
-            }
-        } */
         
+        for (let k = 0; k < game.enemies.length; k++) {
+            let enemy = game.enemies[k]
+
+            if (isColliding(laser, enemy)) {
+                game.laserBeams.splice(i--, 1)
+                game.enemies.splice(k--, 1)
+                game.points++;
+                let score = document.getElementById("scoreContainer")
+                score.innerText = "SCORE: ";
+                score.innerText +=  " " + game.points;
+            }
+        }
+
+ 
+
 
         if (laser.y - laser.height <= -20) { //kollar var lasern befinner sig
             game.laserBeams.splice(i--, 1); //tar bort lasern ur arrayen om den åker utanför spelplanen
         }
 
+        let playerLaserImg = document.getElementById("playerLaser"); //hämtar bilden för lasern
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(playerLaserImg, laser.x + 15, laser.y - 6, laser.width, laser.height); //ritar ut lasern på ny plats
     }
     //console.log("kör playerlaser")
     //console.log(laserBeams[i])
@@ -48,7 +48,7 @@ export function laser(game) {
         //direction: 0,  
     };
     //console.log("kör funktionen laser");
-    console.log(laser);
+    //console.log(laser);
     game.laserBeams.push(laser); //sparar lasern i arrayen 
 }
 

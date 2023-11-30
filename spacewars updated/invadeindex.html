@@ -20,26 +20,42 @@
             border: 1px solid black;
             padding-left: 0;
             padding-right: 0;
-
-
             border-style: solid;
             border-radius: 20px;
         }
 
-        #scoreContainer {
+        #statsContainer {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             color: white;
             border-style: solid;
             border-radius: 20px;
             font-size: 20px;
+            font-weight: bold;
             background-color: rgb(14, 5, 22);
             width: 300px;
-            height: 900px;
-            margin-left: 25px;
+            height: 900px;            
+        }
+
+        #levelContainer{
+            margin-top: 25px;
+            margin-left: 10px;
 
         }
+
+        #scoreContainer{
+            margin-top: 50px;
+            margin-left: 10px;
+
+        }
+
+        #lifeContainer{
+            margin-top: 50px;
+            margin-left: 10px;
+        }
+
     </style>
+
 </head>
 
 <body>
@@ -55,12 +71,25 @@
     </div>
 
     <div id="mainContainer">
+
         <canvas id="canvas"></canvas>
         <script type="module" src="player.js"></script>
         <script type="module" src="java.js"></script>
         <script type="module" src="enemies.js"></script>
         <script type="module" src="playerlaser.js"></script>
-        <div id="scoreContainer">SCORE:</div>
+        <div id="statsContainer">
+            <div id="levelContainer">LEVEL: 1</div>
+            <div id="scoreContainer"> 
+            SCORE:
+            </div>
+            <div id="lifeContainer"> 
+            Lives remaining: 3
+            </div>
+
+
+        </div>
+        
+
     </div>
 
 </body>

@@ -21,8 +21,8 @@ export function updateEnemies(game) {
 
     
     if (enemy.laserTimer <=0 ) {
-      laserEnemy(game, enemy);
-      enemy.laserTimer = Math.random() +4;
+      laserEnemy(game, enemy); 
+      enemy.laserTimer = Math.random() +2;
     }
     //laser shoot function
 

@@ -1,26 +1,37 @@
-
+import { isColliding } from "./shootingAliens.js";
 
 //denna funktion ritar ut lasern från fienden
 export function enemyLaser(ctx, game) {
     for (let i = 0; i < game.laserBeamsEnemy.length; i++) { //går igenom alla laserbeams 
-
-        console.log("HAJ");
         let laser = game.laserBeamsEnemy[i]; //lägger in den aktuella laserbeam i variabeln laser
-
         laser.y += -laser.speed * game.deltaTime * 2; //ändrar y-värde på laser
 
-        let enemyLaserImg = document.getElementById("enemyLaser"); //hämtar bilden för lasern
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(enemyLaserImg, laser.x + 15, laser.y + 25, laser.width, laser.height); //ritar ut lasern på ny plats
+        if (isColliding(laser, game.player)) {
+                game.laserBeamsEnemy.splice(i--, 1)
+                game.health--;
+
+
+
+                let lives = document.getElementById("lifeContainer")
+                lives.innerText = "Lives remaining: "; 
+                lives.innerText +=  " " + game.health;
+
+                if(game.health == 0){
+                    alert("You get nothing! You lose! Good day, sir!")
+                    process.exit(0);
+                }
+
+            }
 
         if (laser.y - laser.height <= -20) { //kollar var lasern befinner sig
             game.laserBeamsEnemy.splice(i, 1); //tar bort lasern ur arrayen om den åker utanför spelplanen
             i--;
             continue;
         }
-
+        let enemyLaserImg = document.getElementById("enemyLaser"); //hämtar bilden för lasern
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(enemyLaserImg, laser.x + 15, laser.y + 25, laser.width, laser.height); //ritar ut lasern på ny plats
     }
-
 }
 
 //denna funktion skapar en laserstråle från enemy. 

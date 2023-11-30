@@ -2,6 +2,7 @@ import { drawPlayer, playerMovement } from "./player.js";
 import { drawEnemies, updateEnemies, spawnEnemy, tickEnemySpawning } from "./enemies.js";
 import { playerLaser, laser } from "./playerlaser.js";
 import { enemyLaser, laserEnemy } from "./enemylaser.js";
+import { isColliding } from "./shootingAliens.js";
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -83,6 +84,7 @@ function initGame(gameWidth, gameHeight) {
             width: 50,
             height: 50,
             speed: 300,
+            angle: 0, 
             keys: {
                 left: false,
                 right: false,
@@ -99,6 +101,8 @@ function initGame(gameWidth, gameHeight) {
         laserBeamsEnemy: [],
 
         points: 0,
+        health: 3,
+        Level: 1,
 
         gameWidth,
         gameHeight,
@@ -156,6 +160,7 @@ function tick(ctx, game) {
 
     // Spelarens laser
     playerLaser(ctx, game);
+    enemyLaser(ctx, game);
 
     // Laddar in fiender
     drawEnemies(ctx, game);
@@ -163,11 +168,7 @@ function tick(ctx, game) {
     tickEnemySpawning(game);
 
     // Fiendens laser
-    enemyLaser(ctx, game); //ritar ut laser för enemy 
-    //laserEnemy(game, ); //skapar laser för enemy
-
-
-
+    
 
     requestAnimationFrame(() => tick(ctx, game));
 
