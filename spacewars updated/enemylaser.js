@@ -10,10 +10,8 @@ export function enemyLaser(ctx, game) {
                 game.laserBeamsEnemy.splice(i--, 1)
                 game.health--;
 
-
-
                 let lives = document.getElementById("lifeContainer")
-                lives.innerText = "Lives remaining: "; 
+                lives.innerText = "LIVES REMAINING: "; 
                 lives.innerText +=  " " + game.health;
 
                 if(game.health == 0){
@@ -23,7 +21,7 @@ export function enemyLaser(ctx, game) {
 
             }
 
-        if (laser.y - laser.height <= -20) { //kollar var lasern befinner sig
+        if (laser.y + laser.height > 900) { //kollar var lasern befinner sig
             game.laserBeamsEnemy.splice(i, 1); //tar bort lasern ur arrayen om den åker utanför spelplanen
             i--;
             continue;

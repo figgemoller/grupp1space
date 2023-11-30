@@ -2,7 +2,6 @@ import { drawPlayer, playerMovement } from "./player.js";
 import { drawEnemies, updateEnemies, spawnEnemy, tickEnemySpawning } from "./enemies.js";
 import { playerLaser, laser } from "./playerlaser.js";
 import { enemyLaser, laserEnemy } from "./enemylaser.js";
-import { isColliding } from "./shootingAliens.js";
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -102,13 +101,14 @@ function initGame(gameWidth, gameHeight) {
 
         points: 0,
         health: 3,
-        Level: 1,
+        level: 1,
 
         gameWidth,
         gameHeight,
 
         lastTime: Date.now(),
         deltaTime: 0,
+        levelSpeed: 1,
     }
 }
 
@@ -144,12 +144,21 @@ function alienLaser() {
 }
 
 */
+let levelSpeed = 1;
 
-function tick(ctx, game) {
+function tick(ctx, game, levelSpeed) {
     //function tick(game)  
     let now = Date.now();
     game.deltaTime = (now - game.lastTime) / 1000;
     game.lastTime = now;
+
+   
+  
+     if (game.points % 10 == 0 && game.points > 1) {
+        levelSpeed = levelSpeed * 1.5;
+        console.log (levelSpeed);
+        console.log (game.points);
+    }
 
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImg, 0, 0, game.gameWidth, game.gameHeight);
@@ -158,7 +167,7 @@ function tick(ctx, game) {
     drawPlayer(ctx, game.player);
     playerMovement(game);
 
-    // Spelarens laser
+    //Lasers
     playerLaser(ctx, game);
     enemyLaser(ctx, game);
 
@@ -167,8 +176,6 @@ function tick(ctx, game) {
     updateEnemies(game);
     tickEnemySpawning(game);
 
-    // Fiendens laser
-    
 
     requestAnimationFrame(() => tick(ctx, game));
 

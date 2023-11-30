@@ -1,4 +1,4 @@
-import { enemyLaser, laserEnemy } from "./enemylaser.js";
+import { laserEnemy } from "./enemylaser.js";
 
 // Funktion som ritar ut "ENIMYS"
 export function drawEnemies(ctx, game) {
@@ -8,7 +8,7 @@ export function drawEnemies(ctx, game) {
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(enemyAlienImg, enemy.x, enemy.y, enemy.width, enemy.height); //ritar ut bilden för den, i loopen, aktuella enemyn på plats x,y med dess bredd och höjd
     }
-}
+} 
 
 // en funktion som flyttar på enemies (en i taget) och ...
 export function updateEnemies(game) {
@@ -18,7 +18,7 @@ export function updateEnemies(game) {
 
     enemy.x += enemy.speed * game.deltaTime * .4; //räknar om x-värdet för den aktuella enemy
     enemy.laserTimer -= game.deltaTime;
-
+    console.log(game.levelSpeed);
     
     if (enemy.laserTimer <=0 ) {
       laserEnemy(game, enemy); 
