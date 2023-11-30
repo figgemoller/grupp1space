@@ -18,7 +18,7 @@ export function updateEnemies(game) {
 
     enemy.x += enemy.speed * game.deltaTime * .4; //räknar om x-värdet för den aktuella enemy
     enemy.laserTimer -= game.deltaTime;
-    console.log(game.levelSpeed);
+    //console.log(game.levelSpeed);
     
     if (enemy.laserTimer <=0 ) {
       laserEnemy(game, enemy); 
