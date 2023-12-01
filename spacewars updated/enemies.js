@@ -12,11 +12,12 @@ export function drawEnemies(ctx, game) {
 
 // en funktion som flyttar på enemies (en i taget) och ...
 export function updateEnemies(game) {
+  let lSpeed = 1 + Math.trunc(game.points/10) / 2; //denna funktion ökar hastigheten på enemy lite mer varje gång poängen är jämt delbart med 10
   for (let i = 0; i < game.enemies.length; i++) { //en loop som går igenom alla enemies
     //börjar med att flytta på enemy
     let enemy = game.enemies[i] //lägger den aktuella enemien i varabeln enemy
 
-    enemy.x += enemy.speed * game.deltaTime * .4; //räknar om x-värdet för den aktuella enemy
+    enemy.x += enemy.speed * game.deltaTime * .4 *lSpeed; //räknar om x-värdet för den aktuella enemy
     enemy.laserTimer -= game.deltaTime;
     //console.log(game.levelSpeed);
     
