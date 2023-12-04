@@ -1,5 +1,6 @@
 import { laserEnemy } from "./enemylaser.js";
 
+
 // Funktion som ritar ut "ENIMYS"
 export function drawEnemies(ctx, game) {
     for (let enemy of game.enemies) { //en loop som går igenom alla enimies i arrayen game
@@ -37,7 +38,8 @@ export function updateEnemies(game) {
 
 // en funktion som genererar ett slumpvärde mellan ... och ... (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
 export function tickEnemySpawning(game) {
-  game.enemySpawnTimer -= game.deltaTime; //räknar ner, slumpvärdet - tiden som gått sedan senaste uppdatering
+  let lSpeed = 1 + Math.trunc(game.points/10) / 2;
+  game.enemySpawnTimer -= game.deltaTime * lSpeed; //räknar ner, slumpvärdet - tiden som gått sedan senaste uppdatering
   if (game.enemySpawnTimer <= 0) { //om timern är mindre än noll så:
     spawnEnemy(game); //kör spawnEnemy
     game.enemySpawnTimer = Math.random() * 2 + 1; //generera den slumpade tiden
@@ -55,7 +57,7 @@ export function spawnEnemy(game) {
     width: 50, //bredd för bilden (enemy)
     height: 50, //höjd för bilden (enemy)
     speed: side ? 500 : -500, //om side=true så går enemy åt höger annars åt vänster
-    laserTimer: 1,
+    laserTimer: 0.5,
   };
 
 game.enemies.push(enemy); //lägger till det nyss skapade objektet enemy i arrayen games

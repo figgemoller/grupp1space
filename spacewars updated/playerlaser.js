@@ -9,6 +9,7 @@ export function playerLaser(ctx, game) {
         for (let k = 0; k < game.enemies.length; k++) {
             let enemy = game.enemies[k]
 
+            //funktionen kollar om playerlaser träffar enemy och hanterar vad som ska hända då
             if (isColliding(laser, enemy)) {
                 // Ökar score om man träffar aliens
                 game.laserBeams.splice(i--, 1)
@@ -19,8 +20,8 @@ export function playerLaser(ctx, game) {
                 score.innerText +=  " " + game.points;
 
                 // Ökar level efter 10 poäng
-                if (game.points % 10 == 0 || game.points == 20){
-                    //if (game.points % 10 == 0)
+                if (game.points % 10 == 0){
+                    
                 game.level++;
                 let level = document.getElementById("levelContainer")
                 level.innerText = "LEVEL: "

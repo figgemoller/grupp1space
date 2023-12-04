@@ -7,6 +7,7 @@ let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
 let bgImg = document.getElementById("backgroundImage");
+let pewPew = document.getElementById("pew")
 
 canvas.width = 1000;
 canvas.height = 900;
@@ -26,7 +27,11 @@ canvas.height = 900;
 //shootCountdown = timer; 
 
 
+function laserSound () {
+    let audio = new Audio("pew.mp3")
+    audio.play();
 
+}
 
 
 //event-listener som lyssnar om någon pil-knapp trycks ner
@@ -44,11 +49,16 @@ window.addEventListener("keydown", (event) => {
         game.player.keys.down = true;
     }
     //event-listener för att skjuta (om mellanslag trycks ner)
-    if (event.key === " ") {
-        laser.shoot = true,
-            laser(game);
-        //console.log("skjut")
+    
+    if (event.key === " " && Date.now() - game.playerLaserLimit > 300 ) {    
+        laser.shoot = true;
+            laser(game); 
+            game.playerLaserLimit = Date.now();
+              
+       
     }
+
+
 
 });
 //event-listener som lyssnar om någon pil-knapp släpps (åker upp)
@@ -98,10 +108,12 @@ function initGame(gameWidth, gameHeight) {
         laserBeams: [],
         enemyLasers: [],
         laserBeamsEnemy: [],
+        playerLaserLimit: 0,
 
         points: 0,
         health: 3,
         level: 1,
+        //totalScore: [],
 
         gameWidth,
         gameHeight,
@@ -109,10 +121,13 @@ function initGame(gameWidth, gameHeight) {
         lastTime: Date.now(),
         deltaTime: 0,
         levelSpeed: 1,
+        
+
+        
     }
+
+
 }
-
-
 
 /*
 function laser() {
@@ -152,7 +167,8 @@ function tick(ctx, game, levelSpeed) {
     game.deltaTime = (now - game.lastTime) / 1000;
     game.lastTime = now;
 
-   
+   //en räknare som räknar ner tiden, om tiden oc
+    //if 
   
      if (game.points % 10 == 0 && game.points > 1) {
         levelSpeed = levelSpeed * 1.5;
@@ -169,13 +185,16 @@ function tick(ctx, game, levelSpeed) {
 
     //Lasers
     playerLaser(ctx, game);
-    enemyLaser(ctx, game);
+    enemyLaser(ctx, game, playerLaser);
+
+    
+    
 
     // Laddar in fiender
     drawEnemies(ctx, game);
     updateEnemies(game);
     tickEnemySpawning(game);
-
+    
 
     requestAnimationFrame(() => tick(ctx, game));
 

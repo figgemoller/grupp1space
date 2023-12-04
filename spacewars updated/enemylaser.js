@@ -1,4 +1,5 @@
 import { isColliding } from "./shootingAliens.js";
+import { playerLaser } from "./playerlaser.js";
 
 //denna funktion ritar ut lasern från fienden
 export function enemyLaser(ctx, game) {
@@ -6,6 +7,7 @@ export function enemyLaser(ctx, game) {
         let laser = game.laserBeamsEnemy[i]; //lägger in den aktuella laserbeam i variabeln laser
         laser.y += -laser.speed * game.deltaTime * 2; //ändrar y-värde på laser
 
+        // Om man blir träffad av aliens laser så mister man ett liv
         if (isColliding(laser, game.player)) {
                 game.laserBeamsEnemy.splice(i--, 1)
                 game.health--;
@@ -14,8 +16,15 @@ export function enemyLaser(ctx, game) {
                 lives.innerText = "LIVES REMAINING: "; 
                 lives.innerText +=  " " + game.health;
 
+                // Om spelarens liv är lika med noll så skriver man in sitt namn och resultatet printas på score boarden
                 if(game.health == 0){
-                    alert("You get nothing! You lose! Good day, sir!")
+                    let totalScore = [];
+                    let newScoreName = prompt("You lose! Enter your name for the score board:");
+                    let highScore = document.getElementById("highScoreContainer");
+                    let newHigh =  "<br />" + game.points + "points" + " - " + newScoreName;
+                    totalScore.push(newHigh);
+                    totalScore.sort(function(a, b){return b - a});
+                    highScore.innerHTML += totalScore;
                     process.exit(0);
                 }
 
@@ -42,7 +51,7 @@ export function laserEnemy(game, enemy) {
             width: 20,
             height: 20,
             shoot: true,
-            speed: -200,
+            speed: -300,
             //direction: 0,  
         };
 
