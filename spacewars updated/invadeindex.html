@@ -15,10 +15,29 @@
             align-self: center;
         }
 
+        #infoContainer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #newGameButton {
+            color: rgb(14, 5, 22);
+            background-color: rgb(177, 228, 252);
+            border: none;
+            border-radius: 20px;
+            height: 50px;
+            width: 150px;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 50px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
         #title {
             margin-top: 25px;
             margin-right: auto;
-            margin-left: auto;
+            margin-left: 25px;
         }
 
         #title:hover {
@@ -54,16 +73,19 @@
         #levelContainer {
             margin-top: 25px;
             margin-left: 10px;
-
         }
 
         #scoreContainer {
             margin-top: 50px;
             margin-left: 10px;
-
         }
 
         #lifeContainer {
+            margin-top: 50px;
+            margin-left: 10px;
+        }
+
+        #highScoreContainer {
             margin-top: 50px;
             margin-left: 10px;
         }
@@ -80,25 +102,29 @@
         <img id="enemyAlien" src="/source/enemy.png" height="30px" width="30px">
         <img id="playerLaser" src="/source/playerlaser.png" />
         <img id="enemyLaser" src="/source/enemylaser.png" />
+        <audio id="pew" src="/source/pew.mp3"></audio>
 
     </div>
 
     <div id="mainContainer">
 
-        <img id="title" src="https://i.imgur.com/pkTjkjN.png" height="300px"
-            width="332px" />
-            
+
+        <div id="infoContainer">
+            <img id="title" src="https://i.imgur.com/pkTjkjN.png" height="300px" width="332px" />
+            <button id="newGameButton">NEW GAME  </button>
+        </div>
+
         <canvas id="canvas"></canvas>
         <script type="module" src="player.js"></script>
         <script type="module" src="java.js"></script>
         <script type="module" src="enemies.js"></script>
         <script type="module" src="playerlaser.js"></script>
+
         <div id="statsContainer">
             <div id="levelContainer">LEVEL: 1</div>
-            <div id="scoreContainer">SCORE: 0</div>
             <div id="lifeContainer">LIVES REMAINING: 3</div>
-
-
+            <div id="scoreContainer">SCORE: 0</div>
+            <div id="highScoreContainer">HIGH SCORE: </div>
         </div>
 
 
