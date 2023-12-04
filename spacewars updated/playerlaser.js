@@ -19,7 +19,8 @@ export function playerLaser(ctx, game) {
                 score.innerText +=  " " + game.points;
 
                 // Ökar level efter 10 poäng
-                if (game.points == 10 || game.points == 20){
+                if (game.points % 10 == 0 || game.points == 20){
+                    //if (game.points % 10 == 0)
                 game.level++;
                 let level = document.getElementById("levelContainer")
                 level.innerText = "LEVEL: "
