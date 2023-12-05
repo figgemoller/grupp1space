@@ -26,6 +26,8 @@ export function enemyLaser(ctx, game) {
                     totalScore.sort(function(a, b){return b - a});
                     highScore.innerHTML += totalScore;
                     process.exit(0);
+                    /*localStorage.setItem("lastname", "Smith");
+                    localStorage.getItem("lastname");*/
                 }
 
             }

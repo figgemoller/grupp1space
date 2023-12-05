@@ -12,16 +12,19 @@ export function playerLaser(ctx, game) {
             //funktionen kollar om playerlaser träffar enemy och hanterar vad som ska hända då
             if (isColliding(laser, enemy)) {
                 // Ökar score om man träffar aliens
-                game.laserBeams.splice(i--, 1)
-                game.enemies.splice(k--, 1)
-                game.points++;
+                game.laserBeams.splice(i--, 1)//tar bort laser om man träffat enemy
+                explosionAudio(); //spelar ljud 
+                game.enemies.splice(k--, 1) //tar bort enemy vid träff
+                game.points++; //ökar poäng
+                //skriver ut poäng
                 let score = document.getElementById("scoreContainer")
-                score.innerText = "SCORE: ";
-                score.innerText +=  " " + game.points;
+                score.innerText = "SCORE: "; //skriver ut SCORE
+                score.innerText +=  " " + game.points; //skriver ut poängen
 
                 // Ökar level efter 10 poäng
                 if (game.points % 10 == 0){
-                    
+                
+                //ökar level 
                 game.level++;
                 let level = document.getElementById("levelContainer")
                 level.innerText = "LEVEL: "
@@ -58,8 +61,15 @@ export function laser(game) {
         speed: 400,   //laserns hastighet
         //direction: 0,  
     };
-    //console.log("kör funktionen laser");
-    //console.log(laser);
     game.laserBeams.push(laser); //sparar lasern i arrayen 
 }
 
+export function laserAudio () {
+    let laserAudio = new Audio("/source/laser.mp3")
+    laserAudio.play();
+}
+function explosionAudio () {
+    let explosionAudio = new Audio("/source/explosion.mp3")
+    explosionAudio.volume = 1;
+    explosionAudio.play();
+}
