@@ -1,40 +1,17 @@
+//importerar funktioner från andra filer
 import { drawPlayer, playerMovement } from "./player.js";
-import { drawEnemies, updateEnemies, spawnEnemy, tickEnemySpawning } from "./enemies.js";
-import { playerLaser, laser } from "./playerlaser.js";
-import { enemyLaser, laserEnemy } from "./enemylaser.js";
+import { drawEnemies, updateEnemies, tickEnemySpawning } from "./enemies.js";
+import { playerLaser, laser, laserAudio } from "./playerlaser.js";
+import { enemyLaser } from "./enemylaser.js";
 
+//definerar canvas
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-
 let bgImg = document.getElementById("backgroundImage");
-let pewPew = document.getElementById("pew")
-
 canvas.width = 1000;
 canvas.height = 900;
 
-//variabler
-//let player;
-//let aliens;
-//let laserBeams;
-//let alienLasers;
-//let spawnTimer;
-//let points;
-//let gameTimer;
-//let speed;
-//let timer = 1;
-//let shootCountdown;
-//let shootOk = false;
-//shootCountdown = timer; 
-
-
-function laserSound () {
-    let audio = new Audio("pew.mp3")
-    audio.play();
-
-}
-
-
-//event-listener som lyssnar om någon pil-knapp trycks ner
+//event-listener som lyssnar om någon pil-knapp trycks (för att röra på spelaren)
 window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
         game.player.keys.left = true;
@@ -48,16 +25,13 @@ window.addEventListener("keydown", (event) => {
     } if (event.key === "ArrowDown") {
         game.player.keys.down = true;
     }
-    //event-listener för att skjuta (om mellanslag trycks ner)
-    
-    if (event.key === " " && Date.now() - game.playerLaserLimit > 300 ) {    
+    //event-listener för att skjuta om mellanslag trycks ner
+    if (event.key === " " && Date.now() - game.playerLaserLimit > 300) {
         laser.shoot = true;
-            laser(game); 
-            game.playerLaserLimit = Date.now();
-              
-       
+        laserAudio();
+        laser(game);
+        game.playerLaserLimit = Date.now();
     }
-
 
 
 });
@@ -78,22 +52,33 @@ window.addEventListener("keyup", (event) => {
     }
 });
 
+newGameButton.addEventListener("click", () => game = initGame(canvas.width, canvas.height));
 
-let game = initGame(canvas.width, canvas.height);
+let game = initGame(canvas.width, canvas.height); //lägger resultatet av initgame i variabeln game
 
-//functions
+//funktionen initGame
 function initGame(gameWidth, gameHeight) {
+
+    let lives = document.getElementById("lifeContainer")
+    lives.innerText = "LIVES REMAINING: ";
+    lives.innerText += " 3";
+    let level = document.getElementById("levelContainer")
+    level.innerText += " 1";
+
+
+
 
     requestAnimationFrame(() => tick(ctx, game));
 
     return {
+        //sätter utgångsvärden för spelaren och andra variabler och lägger in dem i gametick funktionen
         player: {
             x: canvas.width / 2 - 25,
             y: canvas.height - 70,
             width: 50,
             height: 50,
             speed: 300,
-            angle: 0, 
+            angle: 0,
             keys: {
                 left: false,
                 right: false,
@@ -113,182 +98,45 @@ function initGame(gameWidth, gameHeight) {
         points: 0,
         health: 3,
         level: 1,
-        //totalScore: [],
 
         gameWidth,
         gameHeight,
 
         lastTime: Date.now(),
         deltaTime: 0,
-        levelSpeed: 1,
-        
 
-        
     }
-
-
-}
-
-/*
-function laser() {
-    let laser = {
-        x: player.x,
-        y: player.y,
-        width: 20,
-        height: 20,
-        shoot: false,
-        //direction: 0,
-    };
-
-    laserBeams.push(laser);
 }
 
 
-
-function alienLaser() {
-    let alienLaser = {
-        x: aliens[i].alien.x,
-        y: aliens[i].alien.y,
-        width: 20,
-        height: 20,
-        shoot: false,
-
-    };
-
-    alienLasers.push(alienLaser);
-}
-
-*/
-let levelSpeed = 1;
-
-function tick(ctx, game, levelSpeed) {
+function tick(ctx, game) { //en funktion som anropar andra funktioner, har timer och i slutet anropas tick igen
     //function tick(game)  
     let now = Date.now();
     game.deltaTime = (now - game.lastTime) / 1000;
     game.lastTime = now;
 
-   //en räknare som räknar ner tiden, om tiden oc
-    //if 
-  
-     if (game.points % 10 == 0 && game.points > 1) {
-        levelSpeed = levelSpeed * 1.5;
-        console.log (levelSpeed);
-        console.log (game.points);
-    }
 
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImg, 0, 0, game.gameWidth, game.gameHeight);
 
     // Laddar in spelaren
-    drawPlayer(ctx, game.player);
-    playerMovement(game);
+    drawPlayer(ctx, game.player); // Funtion som ritar ut spelaren
+    playerMovement(game); //Function som hanterar player movement (beräknar x och y-värden)
 
     //Lasers
-    playerLaser(ctx, game);
-    enemyLaser(ctx, game, playerLaser);
-
-    
-    
+    playerLaser(ctx, game); //denna funktion ritar ut lasern från spelaren (player)
+    enemyLaser(ctx, game, playerLaser); //denna funktion ritar ut lasern från fienden
 
     // Laddar in fiender
-    drawEnemies(ctx, game);
-    updateEnemies(game);
-    tickEnemySpawning(game);
-    
-
-    requestAnimationFrame(() => tick(ctx, game));
-
-    //
+    drawEnemies(ctx, game); // Funtion som ritar ut enemies
+    updateEnemies(game); //Function som hanterar player movement (beräknar x och y-värden)
+    tickEnemySpawning(game); // en funktion som genererar ett slumpvärde mellan ... och ... (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
 
 
-    /*  gameTimer -= deltaTime;
-     if (gameTimer <= 0) {
-         gameTimer = 0.0; */
-    /* 
-    
-        } else {
-            //Efterfrågar en ny tick.
-            requestAnimationFrame(tick);
-        }
-    
-        spawnTimer -= deltaTime;
-        if (spawnTimer <= 0) {
-    
-            spawnAliens();
-            spawnTimer = 2;
-        }
-    
-        //skjuta (gör så att vi inte kan skjuta hela tiden)
-        shootCountdown -= deltaTime
-        if (shootCountdown < 0) {
-            shootOk = true;
-    
-        }
-    
-        if (laser.shoot && shootOk) {
-            laser();
-            shootCountdown = timer;
-            shootOk = false
-        };
-    
-    
-        //Gör så lasern skjuts uppåt och sedan försvinner när den är utanför canvas
-        for (let i = 0; i < laserBeams.length; i++) {
-            let laser = laserBeams[i];
-    
-            laser.y += -speed * deltaTime * 2;
-    
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(playerLaserImg, laser.x + 15, laser.y - 6, laser.width, laser.height);
-    
-            if (laser.y - laser.height <= -20) {
-                laserBeams.splice(i, 1);
-                i--;
-                continue;
-            }
-    
-        }
-    
-        for (let i = 0; i < alienLasers.length; i++) {
-            let alienLaser = alienLasers[i];
-    
-            alienLaser.y -= -speed * deltaTime * 2;
-    
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(alienLaserImg, alienLaser.x, alienLaser.y - 6, alienLaser.width, alienLaser.height);
-    
-            if (alienLaser.y - alienLaser.height <= -20) {
-                alienLasers.splice(i, 1);
-                i--;
-                continue;
-            }
-    
-        }
-    
-    
-        /*  ctx.imageSmoothingEnabled = false;
-         ctx.drawImage(playerImg, player.x, player.y, player.width, player.height); 
-    
-    
-        for (let i = 0; i < enemies.length; i++) {
-            let enemy = enemies[i]
-    
-            enemy.x += speed * deltaTime * .4;
-            //alien.x -= speed * deltaTime * .7
-    
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
-    
-            if (enemy.x - enemy.width >= canvas.width) {
-                enemies.splice(i, 1);
-                i--;
-                continue;
-            } */
+    requestAnimationFrame(() => tick(ctx, game)); //talar om att vi vill göra en animation och anropar tick-funktion för att på så vis skapa en loop
 
 }
 
 
-//exekvering av programmet
 
 
 

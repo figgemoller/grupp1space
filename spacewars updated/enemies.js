@@ -48,7 +48,7 @@ export function tickEnemySpawning(game) {
 }
 
 //en funktion som skapar enemies (en i taget)
-export function spawnEnemy(game) {
+function spawnEnemy(game) {
   let y = Math.random() * (canvas.height - 300) + 50; //genererar ett slumpvärde för y
   let side = Math.random() < 0.5; //skapar ett slumptal mellan 0 och 1 och sätter side=true om slumptalet är mindre än 0,5
   let enemy = { //skapar en enemy med dess värden
