@@ -36,9 +36,10 @@ export function updateEnemies(game) {
   }
 }
 
-// en funktion som genererar ett slumpvärde mellan ... och ... (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
+// en funktion som genererar ett slumpvärde (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
+//man räknar ner från slumpvärdet
 export function tickEnemySpawning(game) {
-  let lSpeed = 1 + Math.trunc(game.points/10) / 2;
+  let lSpeed = 1 + Math.trunc(game.points/10) / 2; //sätter lSpeed till 1+ (heltalet av poäng/10)
   game.enemySpawnTimer -= game.deltaTime * lSpeed; //räknar ner, slumpvärdet - tiden som gått sedan senaste uppdatering
   if (game.enemySpawnTimer <= 0) { //om timern är mindre än noll så:
     spawnEnemy(game); //kör spawnEnemy

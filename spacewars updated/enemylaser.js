@@ -63,24 +63,3 @@ export function laserEnemy(game, enemy) {
 
 
 
-/*
-// En funktion för att hantera all logik för fiender: rörelse, skjuta laser och mer.
-export function updateEnemies(game) {
-    for (let i = 0; i < game.enemies.length; i++) {
-        let enemy = game.enemies[i];
-
-        enemy.x += enemy.velX * game.deltaTime;
-        enemy.laserTimer -= game.deltaTime;
-
-        if (enemy.laserTimer <= 0) {
-            shootLaser(game, enemy, false);
-            enemy.laserTimer = Math.random() * 2 + 1;
-        }
-
-        if (enemy.x < -enemy.width * 3 || enemy.x + enemy.width > game.gameWidth + enemy.width * 3) {
-            game.enemies.splice(i--, 1);
-        }
-    }
-}
-
-*/
