@@ -8,7 +8,8 @@ export function drawEnemies(ctx, game) {
     let enemyAlienImg = document.getElementById("enemyAlien"); //hämtar bilden för enemy
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(enemyAlienImg, enemy.x, enemy.y, enemy.width, enemy.height); //ritar ut bilden för den, i loopen, aktuella enemyn på plats x,y med dess bredd och höjd
-    }
+   
+  }
 } 
 
 // en funktion som flyttar på enemies (en i taget) och ...
