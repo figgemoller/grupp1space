@@ -5,6 +5,7 @@ export function playerLaser(ctx, game) {
     for (let i = 0; i < game.laserBeams.length; i++) { //går igenom alla laserbeams 
         let laser = game.laserBeams[i]; //lägger in den aktuella laserbeam i variabeln laser
         laser.y += -laser.speed * game.deltaTime * 2; //ändrar y-värde på laser
+        //console.log(laser.y);
         
         for (let k = 0; k < game.enemies.length; k++) {
             let enemy = game.enemies[k]
@@ -63,11 +64,12 @@ export function laser(game) {
     };
     game.laserBeams.push(laser); //sparar lasern i arrayen 
 }
-
+//en funktion som spelar upp ljudfilen laser när spelaren skjuter
 export function laserAudio () {
     let laserAudio = new Audio("/source/laser.mp3")
     laserAudio.play();
 }
+//en funktion som spelar upp explosionsljud när spelarens laser träffar en enemy
 function explosionAudio () {
     let explosionAudio = new Audio("/source/explosion.mp3")
     explosionAudio.volume = 1;

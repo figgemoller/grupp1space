@@ -11,6 +11,17 @@ let bgImg = document.getElementById("backgroundImage");
 canvas.width = 1000;
 canvas.height = 900;
 
+
+/*
+-Knappen "funkar" bara första gången sen efter det startar spelet ändå.
+-Den skriver ut 1 vid level och efter beter den sig konstigt
+-det blir problem att skjuta etc
+
+startButton.addEventListener('click', () => {
+  startGame()
+})
+*/
+
 //event-listener som lyssnar om någon pil-knapp trycks (för att röra på spelaren)
 window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
@@ -52,9 +63,46 @@ window.addEventListener("keyup", (event) => {
     }
 });
 
+//detta har jag lagt till
+/*
+ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+let game;
+newGameButton.addEventListener("click", runGame); //=> game = initGame(canvas.width, canvas.height));
+console.log(game);
+
+function runGame() { //av någon anledning kör denna när jag trycker på mellanslag
+    //den visar enbart lasern så länge mellanslag är nertrykt
+    console.log("hejsan");
+    //game.length = 0;
+    game=initGame(canvas.width, canvas.height);
+    console.log(game.level);
+    game.lives=3;
+    console.log(game.lives);
+
+}
+//fram till hit har jag lagt till
+
+//game = initGame(canvas.width, canvas.height); //lägger resultatet av initgame i variabeln game
+
+    
+    //startGame()
+  
+
+/*
+detta är jonas lösning
+startButton.addEventListener('click', () => {
+  startGame()
+})
+*/
+
+
+Detta är orginalet
 newGameButton.addEventListener("click", () => game = initGame(canvas.width, canvas.height));
+console.log("Nu kör vi1");
 
 let game = initGame(canvas.width, canvas.height); //lägger resultatet av initgame i variabeln game
+//genom att sätta game=initgame anropas initgame och vi startar spelet
+
 
 //funktionen initGame
 function initGame(gameWidth, gameHeight) {
@@ -64,6 +112,7 @@ function initGame(gameWidth, gameHeight) {
     lives.innerText += " 3";
     let level = document.getElementById("levelContainer")
     level.innerText += " 1";
+console.log("hej");
 
 
 
@@ -71,6 +120,7 @@ function initGame(gameWidth, gameHeight) {
     requestAnimationFrame(() => tick(ctx, game));
 
     return {
+        
         //sätter utgångsvärden för spelaren och andra variabler och lägger in dem i gametick funktionen
         player: {
             x: canvas.width / 2 - 25,
@@ -109,11 +159,12 @@ function initGame(gameWidth, gameHeight) {
 }
 
 
-function tick(ctx, game) { //en funktion som anropar andra funktioner, har timer och i slutet anropas tick igen
+function tick(ctx, game, r) { //en funktion som anropar andra funktioner, har timer och i slutet anropas tick igen
     //function tick(game)  
     let now = Date.now();
     game.deltaTime = (now - game.lastTime) / 1000;
     game.lastTime = now;
+    
 
 
     ctx.drawImage(bgImg, 0, 0, game.gameWidth, game.gameHeight);
@@ -131,7 +182,7 @@ function tick(ctx, game) { //en funktion som anropar andra funktioner, har timer
     updateEnemies(game); //Function som hanterar player movement (beräknar x och y-värden)
     tickEnemySpawning(game); // en funktion som genererar ett slumpvärde mellan ... och ... (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
 
-
+  
     requestAnimationFrame(() => tick(ctx, game)); //talar om att vi vill göra en animation och anropar tick-funktion för att på så vis skapa en loop
 
 }
