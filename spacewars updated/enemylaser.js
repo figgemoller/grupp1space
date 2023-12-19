@@ -21,7 +21,6 @@ export function enemyLaser(ctx, game) {
                 let highScore = document.getElementById("highScoreContainer");
                 let newHigh = game.points + "points" + " - " + newScoreName + "<br />";
                 totalScore.push(newHigh);
-                
 
                 //Printar highscoren
                 highScore.innerHTML += totalScore;
