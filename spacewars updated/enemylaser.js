@@ -1,15 +1,17 @@
 import { isColliding } from "./shootingAliens.js";
-//denna funktion ritar ut lasern från fienden
+
+// Denna funktion ritar ut lasern från fienden
 export function enemyLaser(ctx, game) {
-    for (let i = 0; i < game.laserBeamsEnemy.length; i++) { //går igenom alla laserbeams 
-        let laser = game.laserBeamsEnemy[i]; //lägger in den aktuella laserbeam i variabeln laser
-        laser.y += -laser.speed * game.deltaTime * 2; //ändrar y-värde på laser
+    for (let i = 0; i < game.laserBeamsEnemy.length; i++) { // Går igenom alla laserbeams 
+        let laser = game.laserBeamsEnemy[i]; // Lägger in den aktuella laserbeam i variabeln laser
+        laser.y += -laser.speed * game.deltaTime * 2; // Ändrar y-värde på laser
 
         // Om man blir träffad av aliens laser så mister man ett liv
         if (isColliding(laser, game.player)) {
             game.laserBeamsEnemy.splice(i--, 1)
             game.health--;
-            //skriver ut liv
+
+            // Skriver ut liv
             let lives = document.getElementById("lifeContainer")
             lives.innerText = "LIVES REMAINING: ";
             lives.innerText += " " + game.health;
@@ -19,10 +21,10 @@ export function enemyLaser(ctx, game) {
                 let totalScore = [];
                 let newScoreName = prompt("You lose! Enter your name for the score board:");
                 let highScore = document.getElementById("highScoreContainer");
-                let newHigh = game.points + "points" + " - " + newScoreName + "<br />";
+                let newHigh = "<br />" + game.points + "points" + " - " + newScoreName ;
                 totalScore.push(newHigh);
 
-                //Printar highscoren
+                // Printar highscoren
                 highScore.innerHTML += totalScore;
 
                 // Sparar highscoren i local storage
@@ -43,43 +45,44 @@ export function enemyLaser(ctx, game) {
                     let alreadyStored = [storeScore];
                     localStorage.setItem("storage", JSON.stringify(alreadyStored));
                 }
-                //Stannar programmet
+                
+                // Stannar programmet
                 game.paused = true;
                 return;
             }
-
             continue;
-
         }
 
-        if (laser.y + laser.height > 900) { //kollar var lasern befinner sig
-            game.laserBeamsEnemy.splice(i, 1); //tar bort lasern ur arrayen om den åker utanför spelplanen
+        // Kollar var lasern befinner sig
+        if (laser.y + laser.height > 900) { 
+            // Tar bort lasern ur arrayen om den åker utanför spelplanen
+            game.laserBeamsEnemy.splice(i, 1); 
             i--;
             continue;
         }
-        let enemyLaserImg = document.getElementById("enemyLaser"); //hämtar bilden för lasern
+
+        // Hämtar bilden för lasern
+        let enemyLaserImg = document.getElementById("enemyLaser"); 
         ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(enemyLaserImg, laser.x + 15, laser.y + 25, laser.width, laser.height); //ritar ut lasern på ny plats
+
+        // Ritar ut lasern på ny plats
+        ctx.drawImage(enemyLaserImg, laser.x + 15, laser.y + 25, laser.width, laser.height); 
     }
 }
 
-//denna funktion skapar en laserstråle från enemy. 
+// Denna funktion skapar en laserstråle från enemy. 
 export function laserEnemy(game, enemy) {
-    //for (let i = 0; i < game.enemies.length; i++) {
-    //let enemy = game[i];
-    let laser = { //här skapas ett objekt
-        x: enemy.x, //hämtar x-värdet från enemy och sätter laserns x-värde till samma
-        y: enemy.y, //hämtar y-värdet från enemy och sätter laserns x-värde till samma
+
+    // Här skapas ett objekt
+    let laser = { 
+        x: enemy.x, // Hämtar x-värdet från enemy och sätter laserns x-värde till samma
+        y: enemy.y, // Hämtar y-värdet från enemy och sätter laserns x-värde till samma
         width: 20,
         height: 20,
         shoot: true,
         speed: -300,
-        //direction: 0,  
     };
 
-    game.laserBeamsEnemy.push(laser); //sparar lasern i arrayen 
-    //}
+    // Sparar lasern i arrayen 
+    game.laserBeamsEnemy.push(laser); 
 }
-
-
-

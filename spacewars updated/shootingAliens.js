@@ -1,6 +1,7 @@
- //funktion som kollar om två areor (spelare o laser alt enemy o laser) krockar
- //detta görs genom att jämföra koordinaterna för x och y samt bredd o höjd för de två ytorna
- export function isColliding(rect1, rect2) {
+// Funktion som kollar om två areor (spelare o laser alt enemy o laser) krockar
+// Detta görs genom att jämföra koordinaterna för x och y samt bredd o höjd för de två ytorna
+// Returnerar true om de krockar, annars false
+export function isColliding(rect1, rect2) {
   if (
     rect1.x < rect2.x + rect2.width &&
     rect1.x + rect1.width > rect2.x &&

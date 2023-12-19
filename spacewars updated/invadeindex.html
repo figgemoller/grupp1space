@@ -2,7 +2,7 @@
 <html>
 
 <head>
-
+    <!--Styling av containers etc, istället för css-fil-->
     <style>
         body {
             background-color: rgb(73, 21, 73);
@@ -94,34 +94,38 @@
 </head>
 
 <body>
-
+    <!--Bilder som anväds i spelet-->
     <div style="display: none">
 
-        <img id="backgroundImage" src="https://i.pinimg.com/originals/0e/5c/62/0e5c62465e798bd1398733d7d39c6a64.jpg" />
+        <img id="backgroundImage" src="source/spacegamebackground.jpg" />
         <img id="playerChar" src="/source/player.png" height="50px" width="50px" />
         <img id="enemyAlien" src="/source/enemy.png" height="30px" width="30px">
         <img id="playerLaser" src="/source/playerlaser.png" />
         <img id="enemyLaser" src="/source/enemylaser.png" />
-        <audio id="pew" src="/source/laser.mp3"></audio>
-        <audio id="explosion" src="/source/explosion.mp3"></audio>
 
 
     </div>
 
-    <div id="mainContainer">
+    <div id="mainContainer"> <!--Huvudcontainer-->
 
 
-        <div id="infoContainer">
-            <img id="title" src="https://i.imgur.com/pkTjkjN.png" height="300px" width="332px" />
-            <button id="newGameButton">NEW GAME</button>
+        <div id="infoContainer"> <!--Vänstra containern som innehåller bland annat bild med namn-->
+
+            <!-- Bilden som ligger till vänster med namnet space game-->
+            <img id="title" src="/source/spacegame.png" height="300px" width="332px" /> 
+            <!--Spelets enda knapp - new game-->
+            <button id="newGameButton">NEW GAME</button> 
+
         </div>
-
+        
+        <!--Script som anväds i spelet-->
         <canvas id="canvas"></canvas>
         <script type="module" src="player.js"></script>
         <script type="module" src="java.js"></script>
         <script type="module" src="enemies.js"></script>
         <script type="module" src="playerlaser.js"></script>
 
+        <!--Container till höger som visar level, score, high score etc-->
         <div id="statsContainer">
             <div id="levelContainer">LEVEL: </div>
             <div id="lifeContainer">LIVES REMAINING: 3</div>

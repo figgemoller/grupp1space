@@ -1,17 +1,17 @@
-//importerar funktioner från andra filer
+// Importerar funktioner från andra filer
 import { drawPlayer, playerMovement } from "./player.js";
 import { drawEnemies, updateEnemies, tickEnemySpawning } from "./enemies.js";
 import { playerLaser, laser, laserAudio } from "./playerlaser.js";
 import { enemyLaser } from "./enemylaser.js";
 
-//definerar canvas
+// Definerar canvas
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 let bgImg = document.getElementById("backgroundImage");
 canvas.width = 1000;
 canvas.height = 900;
 
-//Hämtar poäng från local storage och printar ut om sidan uppdateras
+// Hämtar poäng från local storage och printar ut om sidan uppdateras
 window.onload = function () {
 
     let checkStorage = localStorage.getItem("storage");
@@ -25,13 +25,12 @@ window.onload = function () {
 
             let printAgain = retrievedScores[i];
 
-            highScore.innerHTML += "<br />" + printAgain;
-
+            highScore.innerHTML += printAgain;
         }
     }
 }
 
-//event-listener som lyssnar om någon pil-knapp trycks (för att röra på spelaren)
+// Event-listener som lyssnar om någon pil-knapp trycks (för att röra på spelaren)
 window.addEventListener("keydown", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -47,17 +46,16 @@ window.addEventListener("keydown", (event) => {
     } if (event.key === "ArrowDown") {
         game.player.keys.down = true;
     }
-    //event-listener för att skjuta om mellanslag trycks ner
+
+    // Event-listener för att skjuta om mellanslag trycks ner
     if (event.key === " " && Date.now() - game.playerLaserLimit > 300) {
-        //laser.shoot = true;
-        laserAudio(); //spelar ljud
-        laser(game); //skapar laser
-        game.playerLaserLimit = Date.now(); //startar om timer
+        laserAudio(); // Spelar ljud
+        laser(game); // Skapar laser
+        game.playerLaserLimit = Date.now(); // Startar om timer
     }
-
-
 });
-//event-listener som lyssnar om någon pil-knapp släpps (åker upp)
+
+// Event-listener som lyssnar om någon pil-knapp släpps (åker upp)
 window.addEventListener("keyup", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -70,30 +68,27 @@ window.addEventListener("keyup", (event) => {
     } if (event.key === "ArrowDown") {
         game.player.keys.down = false;
     }
-    //för att sluta skjuta (känner av om mellanslag släpps upp)
+
+    // För att sluta skjuta (känner av om mellanslag släpps upp)
     if (event.key === " ") {
-        //game.player.keys.shoot = false;
     }
 });
 
-
-//Detta är orginalet
-//vid knapptryck så anropas initgame
+// Vid knapptryck så anropas initgame
 let newGameButton = document.getElementById("newGameButton");
 
 newGameButton.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log("HEEEEEEEEEEEEJ");
     game = initGame(canvas.width, canvas.height);
     requestAnimationFrame(() => tick(ctx, game));
 });
-console.log("Nu kör vi");
 
-let game = initGame(canvas.width, canvas.height); //lägger resultatet av initgame i variabeln game
+// Lägger resultatet av initgame i variabeln game
+let game = initGame(canvas.width, canvas.height); 
 requestAnimationFrame(() => tick(ctx, game));
 
-//funktionen initGame
+// Funktionen initGame
 function initGame(gameWidth, gameHeight) {
 
     let lives = document.getElementById("lifeContainer")
@@ -103,13 +98,10 @@ function initGame(gameWidth, gameHeight) {
     level.innerText = "LEVEL ";
     level.innerText += " 1";
 
-
-    //requestAnimationFrame(() => tick(ctx, game));
-
     return {
         paused: false,
 
-        //sätter utgångsvärden för spelaren och andra variabler och lägger in dem i gametick funktionen
+        // Sätter utgångsvärden för spelaren och andra variabler och lägger in dem i gametick funktionen
         player: {
             x: canvas.width / 2 - 25,
             y: canvas.height - 70,
@@ -146,33 +138,30 @@ function initGame(gameWidth, gameHeight) {
     }
 }
 
+// En funktion som anropar andra funktioner, har timer och i slutet anropas tick igen
+function tick(ctx, game) { 
 
-function tick(ctx, game) { //en funktion som anropar andra funktioner, har timer och i slutet anropas tick igen
-    //function tick(game)  
+    // Function tick(game)  
     let now = Date.now();
     game.deltaTime = (now - game.lastTime) / 1000;
     game.lastTime = now;
 
-
-
     ctx.drawImage(bgImg, 0, 0, game.gameWidth, game.gameHeight);
 
-
     // Laddar in spelaren
-    drawPlayer(ctx, game.player); // Funtion som ritar ut spelaren
-    playerMovement(game); //Function som hanterar player movement (beräknar x och y-värden)
+    drawPlayer(ctx, game.player); // Funktion som ritar ut spelaren
+    playerMovement(game); // Funktion som hanterar player movement (beräknar x och y-värden)
 
     //Lasers
-    playerLaser(ctx, game); //denna funktion ritar ut lasern från spelaren (player)
-    enemyLaser(ctx, game); //denna funktion ritar ut lasern från fienden
+    playerLaser(ctx, game); // Denna funktion ritar ut lasern från spelaren (player)
+    enemyLaser(ctx, game); // Denna funktion ritar ut lasern från fienden
 
     // Laddar in fiender
-    drawEnemies(ctx, game); // Funtion som ritar ut enemies
-    updateEnemies(game); //Function som hanterar player movement (beräknar x och y-värden)
-    tickEnemySpawning(game); // en funktion som genererar ett slumpvärde mellan ... och ... (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
-
+    drawEnemies(ctx, game); // Funktion som ritar ut enemies
+    updateEnemies(game); // Funktion som hanterar player movement (beräknar x och y-värden)
+    tickEnemySpawning(game); // En funktion som genererar ett slumpvärde mellan ... och ... (för att sedan när den når noll tillåta funktionen som skapar enemies att köra)
 
     if (!game.paused)
-        requestAnimationFrame(() => tick(ctx, game)); //talar om att vi vill göra en animation och anropar tick-funktion för att på så vis skapa en loop
+        requestAnimationFrame(() => tick(ctx, game)); // Talar om att vi vill göra en animation och anropar tick-funktion för att på så vis skapa en loop
 
 }
